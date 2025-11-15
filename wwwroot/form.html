@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Form</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        body {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <p><a href="../index.html">top &uarr;</a> &VerticalSeparator; <a href="index.html">dashboard &crarr;</a></p>
+
+        <h1>Kairos Form</h1>
+
+        <div class="container">
+            <div class="row">
+                <div class="column">
+
+                    <form style="text-align:left;">
+                        <fieldset>
+                            <label for="nameInput">Name</label>
+                            <input type="text" id="nameInput">
+
+                            <div class="float-right">
+                                <button class="button-primary" type="button" id="runButton">Run</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+
+                <div class="column">
+
+                    <div class="row">
+                        <div class="column">
+                            <div>
+                                <h2>Actions</h2>
+                                <button class="button-primary" type="button" id="action1Button">Action 1</button>
+                                <button class="button-primary" type="button" id="action2Button">Action 2</button>
+                                <button class="button-primary" type="button" id="action3Button">Action 3</button>
+                            </div>
+                        </div>
+                        
+                        <div class="column">
+                            <div style="border-radius:1rem;padding:.36rem; text-align:end">
+                                <h2>Links</h2>
+
+                                <ul>
+                                    <li><a href="page1.html">Link to page 1</a></li>
+                                    <li><a href="page2.html">Link to page 2</a></li>
+                                    <li><a href="page3.html">Link to page 3</a></li>
+                                    
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        'use strict';
+        const page = {
+            runButton: document.getElementById('runButton'),
+            nameInput: document.getElementById('nameInput'),
+            action1Button: document.getElementById('action1Button'),
+            action2Button: document.getElementById('action2Button'),
+            action3Button: document.getElementById('action3Button')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            page.runButton.addEventListener('click', getData);
+
+            page.action1Button.addEventListener('click', buttonTest);
+            page.action2Button.addEventListener('click', buttonTest);
+            page.action3Button.addEventListener('click', buttonTest);
+        });
+
+        function buttonTest(event) {
+            window.alert('Clicked ' + event.currentTarget.textContent);
+        }
+
+        async function getData(event) {
+            const url = "/mongodb-example/stub";
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const result = await response.json();
+
+                console.log(result + page.nameInput.value);
+                
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+    </script>
+</body>
+</html>
