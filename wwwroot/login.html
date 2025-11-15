@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Log in | Hci-Blazer</title>
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        body {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <h1>Log in to Hci-Blazer</h1>
+
+        <form style="text-align:left; margin: 1rem 0;">
+            <fieldset>
+
+                <div class="container">
+                    <div class="row" style="justify-content: center;">
+                        <div class="column column-50">
+                            <label for="usernameInput">Username</label>
+                            <input type="text" id="usernameInput" name="username" placeholder="Username" value="zhixian" required />
+
+                            <label for="passwordInput">Password</label>
+                            <input type="password" id="passwordInput" name="password" placeholder="Password" value="Password1111" />
+
+                        </div>
+                    </div>
+
+                    <div class="row" style="justify-content: center;">
+                        <div class="float-right">
+                            <button class="button-primary" type="button" id="logInButton">Log in</button>
+                        </div>
+                    </div>
+                    <div class="row" style="justify-content: center;">
+                        <p id="feedbackMessage" class="feedback message"></p>
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+
+    <script>
+        'use strict';
+        const page = {
+            usernameInput: document.getElementById('usernameInput')
+            , passwordInput: document.getElementById('passwordInput')
+            , logInButton: document.getElementById('logInButton')
+            , feedbackMessage: document.getElementById('feedbackMessage')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            page.logInButton.addEventListener('click', authenticateUserCredentials);
+        });
+
+        async function authenticateUserCredentials() {
+            const url = `${apiBaseUrl}/authenticate`;
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: page.usernameInput.value,
+                        password: page.passwordInput.value
+                    })
+                });
+
+                if (!response.ok) {
+                    page.feedbackMessage.innerHTML = response.statusText;
+                    page.feedbackMessage.classList.add('negative-feedback');
+                    return;
+                }
+
+                page.feedbackMessage.classList.remove('negative-feedback');
+                page.feedbackMessage.innerHTML = "Login success. Redirecting to home page...";
+
+                const bearerTokenText = await response.text();
+                console.log(`Received token: ${bearerTokenText}`);
+
+                localStorage.setItem("hci-blazer-token", bearerTokenText);
+                console.log(`Token saved to localstorage: ${bearerTokenText}`);
+
+                window.location.href = "./index.html";
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    </script>
+
+</body>
+</html>
