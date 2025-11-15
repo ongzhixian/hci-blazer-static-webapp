@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Hci-Blazer</title>
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+    <link rel="stylesheet" href="./stylesheets/site.css"/>
+    <style>
+        body {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="body-content">
+
+    <site-page-header></site-page-header>
+
+    <main>
+        <div class="container">
+
+            <div class="row">
+                <div class="column">
+
+                    <div style="border-radius:1rem;padding:.36rem; text-align:start">
+                        <h2>Links</h2>
+
+                        <ul>
+                            <li><a href="page1.html">Link to page 1 (stub)</a></li>
+                            <li><a href="page2.html">Link to page 2 (stub)</a></li>
+                            <li><a href="page3.html">Link to page 3 (stub)</a></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="column"></div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="page-footer">
+        <div class="hide" comment="placeholder"></div>
+    </footer>
+
+    <script src="./components/site-navigation-bar.js" defer></script>
+    <script src="./components/site-page-header.js" defer></script>
+    <script>
+        'use strict';
+        const page = {
+            usernameInput: document.getElementById('usernameInput')
+            , passwordInput: document.getElementById('passwordInput')
+            , logInButton: document.getElementById('logInButton')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // page.logInButton.addEventListener('click', getData);
+        });
+
+        async function getData(event) {
+            const url = `${apiBaseUrl}/HelloWorld`;
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const result = await response.text();
+
+                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    </script>
+
+</body>
+</html>
