@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Inventory | Hci-Blazer</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        body {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <p><a href="../index.html">back to top-level &crarr;</a></p>
+
+        <h1>Inventory</h1>
+
+        <site-navigation-bar></site-navigation-bar>
+
+        <table>
+            <thead>
+            <tr>
+                <th>Name</th>
+                <th>Age</th>
+                <th>Height</th>
+                <th>Location</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Stephen Curry</td>
+                <td>27</td>
+                <td>1,91</td>
+                <td>Akron, OH</td>
+            </tr>
+            <tr>
+                <td>Klay Thompson</td>
+                <td>25</td>
+                <td>2,01</td>
+                <td>Los Angeles, CA</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="/hci-blazer/components/site-navigation-bar.js" defer></script>
+    <script>
+        'use strict';
+        const apiBaseUrl = "http://localhost:7265/api"
+        const page = {
+            usernameInput: document.getElementById('usernameInput')
+            , passwordInput: document.getElementById('passwordInput')
+            , logInButton: document.getElementById('logInButton')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // page.logInButton.addEventListener('click', getData);
+        });
+
+        async function getData(event) {
+            const url = `${apiBaseUrl}/HelloWorld`;
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const result = await response.text();
+
+                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        // function buttonTest(event) {
+        //     window.alert('Clicked ' + event.currentTarget.textContent);
+        // }
+    </script>
+
+</body>
+</html>

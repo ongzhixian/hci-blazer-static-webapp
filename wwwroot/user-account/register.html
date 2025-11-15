@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Register User Account | Hci-Blazer</title>
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        body {
+            padding: 1rem;
+        }
+        .negative-feedback {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <p><a href="../index.html">back to top-level &crarr;</a></p>
+
+        <h1>Register User Accounts</h1>
+
+        <site-navigation-bar></site-navigation-bar>
+
+        <form style="text-align:left; margin: 1rem 0;">
+            <fieldset>
+
+                <div class="container">
+                    <div class="row">
+                        <div class="column">
+                            <label for="usernameInput">Username</label>
+                            <input type="text" id="usernameInput" name="username" placeholder="Username" value="zhixian" required />
+
+                            <label for="emailInput">Email</label>
+                            <input type="email" id="emailInput" name="email" placeholder="Email" value="zhixian@hotmail.com" />
+                        </div>
+                        <div class="column">
+                            <label for="passwordInput">Password</label>
+                            <input type="password" id="passwordInput" name="password" placeholder="Password" value="Password1111" />
+
+                            <label for="confirmPasswordInput">Confirm Password</label>
+                            <input type="password" id="confirmPasswordInput" name="confirmPassword" placeholder="Confirm Password" value="Password1111" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="float-right">
+                            <button class="button-primary" type="button" id="registerButton">Register</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p id="feedbackMessage" class="feedback message"></p>
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+
+    <script src="/hci-blazer/components/site-navigation-bar.js" defer></script>
+    <script>
+        'use strict';
+        const apiBaseUrl = "http://localhost:7265/api"
+        const page = {
+            usernameInput: document.getElementById('usernameInput')
+            , emailInput: document.getElementById('emailInput')
+            , passwordInput: document.getElementById('passwordInput')
+            , confirmPasswordInput: document.getElementById('confirmPasswordInput')
+            , registerButton: document.getElementById('registerButton')
+            , feedbackMessage: document.getElementById('feedbackMessage')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            page.registerButton.addEventListener('click', getData);
+        });
+
+        async function getData(event) {
+            const url = `${apiBaseUrl}/user-account`;
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        username: page.usernameInput.value,
+                        email: page.emailInput.value,
+                        password: page.passwordInput.value,
+                        confirmPassword: page.confirmPasswordInput.value,
+                    })
+                });
+
+                if (!response.ok) {
+                    feedbackMessage.innerHTML = await response.text();
+                    feedbackMessage.classList.add('negative-feedback');
+                    throw new Error(`Response status: ${response.status}`);
+                }
+                else
+                {
+                    feedbackMessage.classList.remove('negative-feedback');
+                    feedbackMessage.innerHTML = "Registration done.";
+                }
+
+                const result = await response.text();
+
+                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        // function buttonTest(event) {
+        //     window.alert('Clicked ' + event.currentTarget.textContent);
+        // }
+    </script>
+
+</body>
+</html>

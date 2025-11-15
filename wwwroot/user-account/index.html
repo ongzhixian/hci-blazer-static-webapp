@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>User Account | Hci-Blazer</title>
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        body {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <p><a href="../index.html">back to top-level &crarr;</a></p>
+
+        <h1>User Accounts</h1>
+
+        <site-navigation-bar></site-navigation-bar>
+
+        <section style="display: flex; justify-content: start; gap: 2rem; border: 1px solid lightgray; padding: 1rem; margin: 2rem 0;">
+            <a class="button" href="/hci-blazer/user-account/register.html">Register user account</a>
+        </section>
+
+        <table class="user-account">
+            <thead>
+            <tr>
+                <th>Username</th>
+                <th>Name</th>
+                <th>Last log in at</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Stephen Curry</td>
+                <td>27</td>
+                <td>1,91</td>
+                <td>Akron, OH</td>
+            </tr>
+            <tr>
+                <td>Klay Thompson</td>
+                <td>25</td>
+                <td>2,01</td>
+                <td>Los Angeles, CA</td>
+            </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script src="/hci-blazer/components/site-navigation-bar.js" defer></script>
+    <script>
+        'use strict';
+        const apiBaseUrl = "http://localhost:7265/api"
+        const page = {
+            usernameInput: document.getElementById('usernameInput')
+            , passwordInput: document.getElementById('passwordInput')
+            , logInButton: document.getElementById('logInButton')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // page.logInButton.addEventListener('click', getData);
+        });
+
+        async function getData(event) {
+            const url = `${apiBaseUrl}/HelloWorld`;
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error(`Response status: ${response.status}`);
+                }
+
+                const result = await response.text();
+
+                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+        // function buttonTest(event) {
+        //     window.alert('Clicked ' + event.currentTarget.textContent);
+        // }
+    </script>
+
+</body>
+</html>
