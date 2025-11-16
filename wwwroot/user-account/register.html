@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Register User Account | Hci-Blazer</title>
@@ -9,9 +9,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
     <style>
-        body {
-            padding: 1rem;
-        }
         .negative-feedback {
             color: red;
         }
@@ -33,17 +30,17 @@
                     <div class="row">
                         <div class="column">
                             <label for="usernameInput">Username</label>
-                            <input type="text" id="usernameInput" name="username" placeholder="Username" value="zhixian" required />
+                            <input type="text" id="usernameInput" name="username" placeholder="Username" required />
 
                             <label for="emailInput">Email</label>
-                            <input type="email" id="emailInput" name="email" placeholder="Email" value="zhixian@hotmail.com" />
+                            <input type="email" id="emailInput" name="email" placeholder="Email" />
                         </div>
                         <div class="column">
                             <label for="passwordInput">Password</label>
-                            <input type="password" id="passwordInput" name="password" placeholder="Password" value="Password1111" />
+                            <input type="password" id="passwordInput" name="password" placeholder="Password" />
 
                             <label for="confirmPasswordInput">Confirm Password</label>
-                            <input type="password" id="confirmPasswordInput" name="confirmPassword" placeholder="Confirm Password" value="Password1111" />
+                            <input type="password" id="confirmPasswordInput" name="confirmPassword" placeholder="Confirm Password" />
                         </div>
                     </div>
 
@@ -77,10 +74,10 @@
         }
 
         document.addEventListener("DOMContentLoaded", function () {
-            page.registerButton.addEventListener('click', getData);
+            page.registerButton.addEventListener('click', registerNewUserAccount);
         });
 
-        async function getData(event) {
+        async function registerNewUserAccount() {
             const url = `${apiBaseUrl}/user-account`;
             try {
                 const response = await fetch(url, {
@@ -94,28 +91,20 @@
                 });
 
                 if (!response.ok) {
-                    feedbackMessage.innerHTML = await response.text();
-                    feedbackMessage.classList.add('negative-feedback');
-                    throw new Error(`Response status: ${response.status}`);
+                    page.feedbackMessage.innerHTML = await response.text();
+                    page.feedbackMessage.classList.add('negative-feedback');
                 }
                 else
                 {
-                    feedbackMessage.classList.remove('negative-feedback');
-                    feedbackMessage.innerHTML = "Registration done.";
+                    page.feedbackMessage.classList.remove('negative-feedback');
+                    page.feedbackMessage.innerHTML = "Registration done.";
                 }
-
-                const result = await response.text();
-
-                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
 
             } catch (error) {
                 console.error(error.message);
             }
         }
 
-        // function buttonTest(event) {
-        //     window.alert('Clicked ' + event.currentTarget.textContent);
-        // }
     </script>
 
 </body>
