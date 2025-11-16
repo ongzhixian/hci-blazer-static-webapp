@@ -3,6 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <title>Register User Account | Hci-Blazer</title>
+    <base href="../" />
     <script src="./scripts/site.js"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
@@ -20,11 +21,10 @@
 
     <div style="margin: 2rem auto;width: 76rem;text-align: center;">
 
-        <p><a href="../index.html">back to top-level &crarr;</a></p>
+        <site-page-header></site-page-header>
 
-        <h1>Register User Accounts</h1>
+        <h2>Register User Accounts</h2>
 
-        <site-navigation-bar></site-navigation-bar>
 
         <form style="text-align:left; margin: 1rem 0;">
             <fieldset>
@@ -63,10 +63,10 @@
 
     </div>
 
-    <script src="/hci-blazer/components/site-navigation-bar.js" defer></script>
+    <script src="./components/site-navigation-bar.js" defer></script>
+    <script src="./components/site-page-header.js" defer></script>
     <script>
         'use strict';
-        const apiBaseUrl = "http://localhost:7265/api"
         const page = {
             usernameInput: document.getElementById('usernameInput')
             , emailInput: document.getElementById('emailInput')
