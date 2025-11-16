@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="column">
                         <h2>Actions</h2>
-                        <a class="button button-clear" style="margin: 0;" href="#">Register new user account</a>
+                        <a class="button button-clear" style="margin: 0;" href="./user-account/register.html">Register new user account</a>
                     </div>
                 </div>
             </section>
@@ -41,33 +41,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="column">
-
-                    <div style="border-radius:1rem;padding:.36rem; text-align:start">
-                        <h2>Links</h2>
-
-                        <ul>
-                            <li><a href="page1.html">Link to page 1 (stub)</a></li>
-                            <li><a href="page2.html">Link to page 2 (stub)</a></li>
-                            <li><a href="page3.html">Link to page 3 (stub)</a></li>
-                        </ul>
-                    </div>
-
-                </div>
-
-                <div class="column"></div>
-            </div>
-
-            <section class="panel app-development">
-                <div class="row">
-                    <div class="column">
-                        <h2>Development-in-progress</h2>
-                        <button id="developmentTestButton">Development Test</button>
-                    </div>
-                </div>
-            </section>
-
         </div>
     </main>
 
@@ -79,36 +52,5 @@
 <script src="./components/site-navigation-bar.js" defer></script>
 <script src="./components/site-page-header.js" defer></script>
 <script src="./components/user-account-list.js" defer></script>
-<script>
-    'use strict';
-    const page = {
-        developmentTestButton: document.getElementById('developmentTestButton'),
-        userAccountList: document.getElementById('userAccountList')
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        page.developmentTestButton.addEventListener('click', getData);
-    });
-
-    async function getData(event) {
-        await page.userAccountList.refreshListing();
-        // const url = `${apiBaseUrl}/user-account`;
-        // try {
-        //     const response = await fetch(url);
-        //
-        //     if (!response.ok) {
-        //         throw new Error(`Response status: ${response.status}`);
-        //     }
-        //
-        //     const result = await response.json();
-        //
-        //     console.log(`${result}`);
-        //
-        // } catch (error) {
-        //     console.error(error.message);
-        // }
-    }
-
-</script>
 </body>
 </html>
