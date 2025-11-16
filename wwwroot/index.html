@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8"/>
     <title>Hci-Blazer</title>
@@ -44,42 +44,43 @@
     </main>
 
     <footer class="page-footer">
-        <div class="hide" comment="placeholder"></div>
+        <div class="hide comment"></div>
     </footer>
+</div>
 
-    <script src="./components/site-navigation-bar.js" defer></script>
-    <script src="./components/site-page-header.js" defer></script>
-    <script>
-        'use strict';
-        const page = {
-            usernameInput: document.getElementById('usernameInput')
-            , passwordInput: document.getElementById('passwordInput')
-            , logInButton: document.getElementById('logInButton')
-        }
+<script src="./components/site-navigation-bar.js" defer></script>
+<script src="./components/site-page-header.js" defer></script>
+<script>
+    'use strict';
+    const page = {
+        usernameInput: document.getElementById('usernameInput')
+        , passwordInput: document.getElementById('passwordInput')
+        , logInButton: document.getElementById('logInButton')
+    }
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // page.logInButton.addEventListener('click', getData);
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+        // page.logInButton.addEventListener('click', getData);
+    });
 
-        async function getData(event) {
-            const url = `${apiBaseUrl}/HelloWorld`;
-            try {
-                const response = await fetch(url);
+    async function getData(event) {
+        const url = `${apiBaseUrl}/HelloWorld`;
+        try {
+            const response = await fetch(url);
 
-                if (!response.ok) {
-                    throw new Error(`Response status: ${response.status}`);
-                }
-
-                const result = await response.text();
-
-                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
-
-            } catch (error) {
-                console.error(error.message);
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
             }
-        }
 
-    </script>
+            const result = await response.text();
+
+            console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
+
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+
+</script>
 
 </body>
 </html>
