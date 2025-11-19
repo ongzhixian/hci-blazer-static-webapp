@@ -74,11 +74,16 @@ class SiteNavigationBar extends HTMLElement {
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+<style>
+.current {
+    font-weight: bold;
+}
+</style>
 <nav style="display: flex; gap: 2rem; justify-content: center;">
-    <a href="/index.html">Home</a>
-    <a href="/user-account/index.html">User Account</a>
-    <a href="/inventory/index.html">Inventory</a>
-    <a href="/reports/index.html">Reports</a>
+    <a class="${ window.location.pathname == '/index.html' ? "current" : ""}" href="/index.html">Home</a>
+    <a class="${ window.location.pathname == '/user-account/index.html' ? "current" : ""}" href="/user-account/index.html">User Account</a>
+    <a class="${ window.location.pathname == '/inventory/index.html' ? "current" : ""}" href="/inventory/index.html">Inventory</a>
+    <a class="${ window.location.pathname == '/reports/index.html' ? "current" : ""}" href="/reports/index.html">Reports</a>
 </nav>`;
     }
 }
