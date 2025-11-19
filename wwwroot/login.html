@@ -26,10 +26,10 @@
                     <div class="row" style="justify-content: center;">
                         <div class="column column-50">
                             <label for="usernameInput">Username</label>
-                            <input type="text" id="usernameInput" name="username" placeholder="Username" value="zhixian" required />
+                            <input type="text" id="usernameInput" name="username" placeholder="Username" required />
 
                             <label for="passwordInput">Password</label>
-                            <input type="password" id="passwordInput" name="password" placeholder="Password" value="Password1111" />
+                            <input type="password" id="passwordInput" name="password" placeholder="Password" />
 
                         </div>
                     </div>
@@ -87,7 +87,7 @@
                 console.log(`Received token: ${bearerTokenText}`);
 
                 localStorage.setItem("hci-blazer-token", bearerTokenText);
-                console.log(`Token saved to localstorage: ${bearerTokenText}`);
+                console.debug('Token saved to localstorage.');
 
                 window.location.href = "./index.html";
 

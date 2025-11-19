@@ -54,7 +54,20 @@ class UserAccountList extends HTMLElement {
     async getUserAccountList() {
         const url = `${apiBaseUrl}/user-account`;
         try {
-            const response = await fetch(url);
+
+            const response = await fetch(url, {
+                method: "GET",
+                // body: JSON.stringify({
+                //     username: page.usernameInput.value,
+                //     password: page.passwordInput.value
+                // }),
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${hciBlazerToken}`
+                }
+            });
+
+
             if (!response.ok) return [];
             return await response.json();
         } catch (error) {
