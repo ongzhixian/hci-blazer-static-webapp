@@ -13,6 +13,6 @@ if (window.location.pathname != '/login.html')
         window.location.href = "./login.html";
     }
 
-    console.log('Token retrieved from localstorage.');
+    console.debug('Token retrieved from localstorage.');
 }
 
