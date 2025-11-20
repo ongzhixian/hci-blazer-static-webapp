@@ -3,88 +3,53 @@
 <head>
     <meta charset="utf-8" />
     <title>Inventory | Hci-Blazer</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
-    <style>
-        body {
-            padding: 1rem;
-        }
-    </style>
+    <base href="../"/>
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css"/>
+    <link rel="stylesheet" href="./stylesheets/site.css"/>
 </head>
 <body>
 
-    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+<div class="body-content">
 
-        <p><a href="../index.html">back to top-level &crarr;</a></p>
+    <site-page-header></site-page-header>
 
-        <h1>Inventory</h1>
+    <main>
 
-        <site-navigation-bar></site-navigation-bar>
+        <div class="container">
 
-        <table>
-            <thead>
-            <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Height</th>
-                <th>Location</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Stephen Curry</td>
-                <td>27</td>
-                <td>1,91</td>
-                <td>Akron, OH</td>
-            </tr>
-            <tr>
-                <td>Klay Thompson</td>
-                <td>25</td>
-                <td>2,01</td>
-                <td>Los Angeles, CA</td>
-            </tr>
-            </tbody>
-        </table>
+            <section class="panel action-buttons" style="border-bottom: 2px dotted rebeccapurple;">
+                <div class="row">
+                    <div class="column">
+                        <h2>Actions</h2>
+<!--                        <a class="button button-clear" style="margin: 0;" href="./inventory/item-master.html">Item Master</a>-->
+                        <a class="button button-clear" style="margin: 0;" href="./inventory/add-inventory.html">Add Inventory</a>
 
-    </div>
+                    </div>
+                </div>
+            </section>
 
-    <script src="/hci-blazer/components/site-navigation-bar.js" defer></script>
-    <script>
-        'use strict';
-        const apiBaseUrl = "http://localhost:7265/api"
-        const page = {
-            usernameInput: document.getElementById('usernameInput')
-            , passwordInput: document.getElementById('passwordInput')
-            , logInButton: document.getElementById('logInButton')
-        }
+            <div class="row">
+                <div class="column">
 
-        document.addEventListener("DOMContentLoaded", function () {
-            // page.logInButton.addEventListener('click', getData);
-        });
+                    <p>No inventory defined.</p>
 
-        async function getData(event) {
-            const url = `${apiBaseUrl}/HelloWorld`;
-            try {
-                const response = await fetch(url);
+                </div>
+            </div>
 
-                if (!response.ok) {
-                    throw new Error(`Response status: ${response.status}`);
-                }
 
-                const result = await response.text();
+        </div>
 
-                console.log(`${result} ${page.usernameInput.value} ${page.passwordInput.value}`);
 
-            } catch (error) {
-                console.error(error.message);
-            }
-        }
+    </main>
 
-        // function buttonTest(event) {
-        //     window.alert('Clicked ' + event.currentTarget.textContent);
-        // }
-    </script>
+</div>
+
+<script src="./components/site-navigation-bar.js" defer></script>
+<script src="./components/site-page-header.js" defer></script>
+<script src="./components/user-account-list.js" defer></script>
 
 </body>
 </html>
