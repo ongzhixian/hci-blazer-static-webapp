@@ -16,3 +16,7 @@ if (window.location.pathname != '/login.html')
     console.debug('Token retrieved from localstorage.');
 }
 
+// API ENDPOINTS
+
+const USER_ACCOUNT_ENDPOINT = 'user-account';
+const INVENTORY_ITEM_ENDPOINT = 'inventory-item';
