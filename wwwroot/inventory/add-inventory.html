@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Add Inventory | Hci-Blazer</title>
+    <base href="../" />
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        .negative-feedback {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <site-page-header></site-page-header>
+
+        <h2>Add Inventory</h2>
+
+
+        <form style="text-align:left; margin: 1rem 0;">
+            <fieldset>
+
+                <div class="container">
+                    <div class="row" style="margin-bottom: 2rem;">
+                        <div class="column">
+                            <label for="itemCodeInput">Item Code *</label>
+                            <input type="text" id="itemCodeInput" name="inventoryItemCode" placeholder="Example 'HS(14) - S01'" required value="HS(14) - S01" />
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div>
+
+                    <div class="row" >
+                        <div class="column">
+                            <label for="yearInput">Year</label>
+                            <input type="text" id="yearInput" name="inventoryYear" placeholder="2014" required value="2014" />
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div>
+
+                    <div class="row" >
+                        <div class="column">
+                            <label for="sizeInput">Size</label>
+                            <input type="text" id="sizeInput" name="inventorySize" placeholder="S" required value="S" />
+                        </div>
+                        <div class="column">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="float-right">
+                            <button class="button-primary" type="button" id="registerButton">Register</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p id="feedbackMessage" class="feedback message"></p>
+                    </div>
+
+                </div>
+
+            </fieldset>
+        </form>
+
+    </div>
+
+    <script src="./components/site-navigation-bar.js" defer></script>
+    <script src="./components/site-page-header.js" defer></script>
+    <script>
+        'use strict';
+        const page = {
+            itemCodeInput: document.getElementById('itemCodeInput')
+            , yearInput: document.getElementById('yearInput')
+            , sizeInput: document.getElementById('sizeInput')
+            , registerButton: document.getElementById('registerButton')
+            , feedbackMessage: document.getElementById('feedbackMessage')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            page.registerButton.addEventListener('click', registerNewInventoryItem);
+        });
+
+        async function registerNewInventoryItem() {
+            const url = `${apiBaseUrl}/inventory-item`;
+            try {
+                const response = await fetch(url, {
+                    method: "POST",
+                    body: JSON.stringify({
+                        itemCode: page.itemCodeInput.value,
+                        year: parseInt(page.yearInput.value),
+                        size: page.sizeInput.value
+                    })
+                });
+
+                if (!response.ok) {
+                    page.feedbackMessage.innerHTML = await response.text();
+                    page.feedbackMessage.classList.add('negative-feedback');
+                }
+                else
+                {
+                    page.feedbackMessage.classList.remove('negative-feedback');
+                    page.feedbackMessage.innerHTML = "Registration done.";
+                }
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    </script>
+
+</body>
+</html>
