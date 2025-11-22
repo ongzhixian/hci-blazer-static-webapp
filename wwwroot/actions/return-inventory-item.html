@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Borrow Inventory | Hci-Blazer</title>
+    <base href="../" />
+    <script src="./scripts/site.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
+    <style>
+        .negative-feedback {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <div style="margin: 2rem auto;width: 76rem;text-align: center;">
+
+        <site-page-header></site-page-header>
+
+        <h2>Return Inventory</h2>
+
+        <p>
+            Enter the inventory item code to retrieve status of item. <br/>
+            Then click on Borrow Item button to borrow item.
+        </p>
+
+        <return-inventory-item id="returnInventoryItem"></return-inventory-item>
+
+    </div>
+
+    <script src="./components/site-navigation-bar.js" defer></script>
+    <script src="./components/site-page-header.js" defer></script>
+    <script src="./components/return-inventory-item.js" defer></script>
+    <script>
+        'use strict';
+        const page = {
+            itemCodeInput: document.getElementById('itemCodeInput')
+            , findButton: document.getElementById('findButton')
+            , feedbackMessage: document.getElementById('feedbackMessage')
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            // page.findButton.addEventListener('click', registerNewInventoryItem);
+        });
+
+        async function registerNewInventoryItem() {
+            const url = `${apiBaseUrl}/${INVENTORY_ITEM_ENDPOINT}/search?item-code=${encodeURIComponent(page.itemCodeInput.value)}`;
+
+            try {
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    page.feedbackMessage.innerHTML = await response.text();
+                    page.feedbackMessage.classList.add('negative-feedback');
+                }
+                else
+                {
+                    page.feedbackMessage.classList.remove('negative-feedback');
+                    const resp = await response.json();
+                    page.feedbackMessage.innerHTML = "Registration done.";
+                }
+
+            } catch (error) {
+                console.error(error.message);
+            }
+        }
+
+    </script>
+
+</body>
+</html>

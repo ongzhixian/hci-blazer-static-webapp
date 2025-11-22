@@ -1,7 +1,7 @@
 // HTML Templates
 
-const borrowerTemplate = document.createElement("template");
-borrowerTemplate.innerHTML = `
+const returnConfirmationTemplate = document.createElement("template");
+returnConfirmationTemplate.innerHTML = `
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css" />
@@ -13,21 +13,18 @@ borrowerTemplate.innerHTML = `
     color: red;
 }
 </style>
-<h3>Borrower</h3>
+<h3>Return</h3>
 <fieldset style="text-align:left; margin: 1rem 0;">
     <div class="container">
         <div class="row" style="margin-bottom: 2rem;">
             <div class="column">
-                <label for="borrowerIdInput">Borrower ID *</label>
-                <input type="text" id="borrowerIdInput" name="borrowerId" placeholder="Example 'SXxxxYyyZ" required value="S1234123Z" />
-                <p>would like to borrow blazer with item code <code id="selectedItemCode">HS(123) - S20</code></p>
+                <p>Click button below to confirm that blazer with item code <code id="selectedItemCode">HS(123) - S20</code> has been returned to store.</p>
             </div>
-            <div class="column"></div>
         </div>
         
         <div class="row">
             <div class="float-right">
-                <button class="button-primary" type="button" id="borrowButton">Borrow</button>
+                <button class="button-primary" type="button" id="confirmReturnButton">Confirm return</button>
                 <button class="button-primary" type="button" id="resetButton">Reset</button>
             </div>
         </div>
@@ -49,7 +46,7 @@ findInventoryItemTemplate.innerHTML = `
     display: none;
 }
 </style>
-<h2>Find Item to borrow</h2>
+<h2>Find borrowed item(s)</h2>
 <fieldset style="text-align:left; margin: 1rem 0;">
     <div class="container">
         <div class="row" style="margin-bottom: 2rem;">
@@ -85,78 +82,17 @@ findInventoryItemTemplate.innerHTML = `
 
 ////////////////////////////////////////////////////////////////////////////////
 
-class FindInventoryItemXX extends HTMLElement {
-    constructor() {
-        super();
-        this.attachShadow({ mode: "open" });
-        this.shadowRoot.appendChild(template.content.cloneNode(true));
-    }
 
-    async connectedCallback() {
-        await this.refreshListing();
-    }
-
-    async refreshListing() {
-        const inventoryItemList = await this.getInventoryItemList();
-        this.inventoryItemList = inventoryItemList;
-    }
-
-    set inventoryItemList(list) {
-        // Clear existing light DOM children safely
-        // this.replaceChildren(); // NOTE: replaceChildren() removes all light DOM children!
-
-        const tbody = this.shadowRoot.querySelector("tbody");
-        tbody.innerHTML = ""; // clear existing rows
-
-        list.forEach(user => {
-            const tr = document.createElement("tr");
-            tr.innerHTML = `
-<td>${user.ItemCode}</td>
-<td>${user.Year}</td>
-<td>${user.Size}</td>
-`;
-            tbody.appendChild(tr); // now inside shadow DOM <tbody>
-        });
-    }
-
-    async getInventoryItemList() {
-        const url = `${apiBaseUrl}/${INVENTORY_ITEM_ENDPOINT}`;
-        try {
-
-            const response = await fetch(url, {
-                method: "GET",
-                // body: JSON.stringify({
-                //     username: page.usernameInput.value,
-                //     password: page.passwordInput.value
-                // }),
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${hciBlazerToken}`
-                }
-            });
-
-
-            if (!response.ok) return [];
-            return await response.json();
-        } catch (error) {
-            console.error(error);
-            return [];
-        }
-    }
-}
-
-
-class SetBorrower extends HTMLElement {
+class ReturnConfirmation extends HTMLElement {
 
     #itemCode;
 
-    #borrowerIdInput;
-    #borrowButton;
+    #confirmReturnButton;
     #resetButton;
     #selectedItemCode;
     #feedbackMessage;
 
-    #borrowButtonClickHandler = this.borrowInventoryItem.bind(this);
+    #confirmReturnButtonHandler = this.borrowInventoryItem.bind(this);
     #resetButtonClickHandler = this.reset.bind(this);
 
     set itemCode(itemCode) {
@@ -170,22 +106,20 @@ class SetBorrower extends HTMLElement {
     }
 
     async connectedCallback() {
-        this.shadowRoot.appendChild(borrowerTemplate.content.cloneNode(true));
+        this.shadowRoot.appendChild(returnConfirmationTemplate.content.cloneNode(true));
 
         this.#selectedItemCode = this.shadowRoot.getElementById('selectedItemCode');
         this.#feedbackMessage = this.shadowRoot.getElementById('feedbackMessage');
 
-
-        this.#borrowerIdInput = this.shadowRoot.getElementById('borrowerIdInput');
-        this.#borrowButton = this.shadowRoot.getElementById('borrowButton');
+        this.#confirmReturnButton = this.shadowRoot.getElementById('confirmReturnButton');
         this.#resetButton = this.shadowRoot.getElementById('resetButton');
 
-        this.#borrowButton.addEventListener('click', this.#borrowButtonClickHandler);
+        this.#confirmReturnButton.addEventListener('click', this.#confirmReturnButtonHandler);
         this.#resetButton.addEventListener('click', this.#resetButtonClickHandler);
     }
 
     async disconnectedCallback() {
-        this.#borrowButton.removeEventListener('click', this.#borrowButtonClickHandler);
+        this.#confirmReturnButton.removeEventListener('click', this.#confirmReturnButtonHandler);
         this.#resetButton.removeEventListener('click', this.#resetButtonClickHandler);
     }
 
@@ -195,10 +129,10 @@ class SetBorrower extends HTMLElement {
         const url = `${apiBaseUrl}/inventory-item-loan`;
         try {
             const response = await fetch(url, {
-                method: "POST",
+                method: "PATCH",
                 body: JSON.stringify({
-                    itemCode: this.#itemCode,
-                    borrowerId: this.#borrowerIdInput.value,
+                    operationCode: 'RETURN_INVENTORY_ITEM',
+                    itemCode: this.#itemCode
                 })
             });
 
@@ -343,16 +277,13 @@ class FindInventoryItem extends HTMLElement {
     }
 }
 
-
-class BorrowInventoryItem extends HTMLElement {
-    // 1. Private field for internal state
+class ReturnInventoryItem extends HTMLElement {
     #count = 0;
     #selectedInventoryItem = null;
     #state = 'FindInventoryItem';
 
     #findInventoryItemWebComponent;
     #inventoryItemSelectedHandler = this.handleInventoryItemSelected.bind(this);
-
 
     #setBorrowerWebComponent;
     #resetToFindInventoryItemHandler = this.resetToFindInventoryItem.bind(this);
@@ -377,8 +308,8 @@ class BorrowInventoryItem extends HTMLElement {
             this.#findInventoryItemWebComponent = this.shadowRoot.querySelector('find-inventory-item');
             this.#findInventoryItemWebComponent.addEventListener('inventory-item-selected', this.#inventoryItemSelectedHandler);
         } else {
-            this.shadowRoot.innerHTML = `<set-borrwer></set-borrwer>`;
-            this.#setBorrowerWebComponent = this.shadowRoot.querySelector('set-borrwer');
+            this.shadowRoot.innerHTML = `<return-confirmation></return-confirmation>`;
+            this.#setBorrowerWebComponent = this.shadowRoot.querySelector('return-confirmation');
             this.#setBorrowerWebComponent.addEventListener('reset-to-find-inventory-item', this.#resetToFindInventoryItemHandler);
             this.#setBorrowerWebComponent.itemCode = this.#selectedInventoryItem;
         }
@@ -398,6 +329,6 @@ class BorrowInventoryItem extends HTMLElement {
 }
 
 
-customElements.define("set-borrwer", SetBorrower);
+customElements.define("return-confirmation", ReturnConfirmation);
 customElements.define("find-inventory-item", FindInventoryItem);
-customElements.define("borrow-inventory-item", BorrowInventoryItem);
+customElements.define("return-inventory-item", ReturnInventoryItem);
