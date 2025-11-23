@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+    <Playwright>
+        <BrowserName>chromium</BrowserName>
+        <LaunchOptions>
+            <Headless>false</Headless>
+            <SlowMo>500</SlowMo>
+            <!-- Optional: Introduces a delay for visual debugging -->
+        </LaunchOptions>
+    </Playwright>
+    <TestRunParameters>
+        <Parameter name="BaseUrl" value="https://localhost:44381" />
+    </TestRunParameters>
+</RunSettings>
